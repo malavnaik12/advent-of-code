@@ -1,5 +1,5 @@
 """
-Advent of Code 2023: Challenge #1 Solution by Malav Naik
+Advent of Code 2023: Challenge #1, Part 1 Solution by Malav Naik
 """
 ## Solution Part 1 ##
 f = open("input.txt", "r")
