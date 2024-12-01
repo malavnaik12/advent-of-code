@@ -1,2 +1,2 @@
-# advent-of-code-2023
-My journey through the Advent of Code for 2023 using Go
+# Advent of Code
+My journey through the Advent of Code for various year, using various languages :)
