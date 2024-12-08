@@ -9,45 +9,44 @@ def get_sign(item):
 def main(fname):
     input_info = load_file(fname)
     safe_count = 0
-    for indx, item in enumerate(input_info):
+    for item in input_info:
         level = [int(x) for x in item.split("\n")[0].split()]
         if abs(len(set(level)) - len(level)) > 1:
             continue
         else:
-            ii = 1
+            print(level)
             sub_count = 1
-            popped = False
-            if level[-1] - level[0] == 0:
-                level.pop(0)
-                popped = True
+            popcount = 0
+            expected_sign = get_sign(level[-1] - level[0])
+            if expected_sign == 0:
+                level.pop(-1)
                 expected_sign = get_sign(level[-1] - level[0])
-            else:
-                expected_sign = get_sign(level[-1] - level[0])
+                popcount = 1
+            ii = 0
             while ii < len(level):
+                ii += 1
                 diff = level[ii] - level[ii - 1]
-                if abs(diff) in [1, 2, 3]:
-                    if get_sign(diff) == expected_sign:
-                        sub_count += 1
-                        ii += 1
-                    else:
-                        if not popped:
-                            level.pop(ii - 1)
-                            popped = True
-                            if np.nansum(np.abs(np.diff(level)) > 3):
-                                break
-                        else:
-                            break
-                else:
-                    if not popped:
+                if abs(diff) not in [1, 2, 3]:
+                    if popcount == 0:
                         level.pop(ii - 1)
-                        popped = True
-                        if np.nansum(np.abs(np.diff(level)) > 3):
-                            break
+                        ii -= 1
+                        popcount = 1
                     else:
                         break
-            print(indx, level, sub_count, len(level), safe_count)
-            if sub_count == len(level):
-                safe_count += 1
+                else:
+                    if get_sign(diff) != expected_sign:
+                        if popcount == 0:
+                            level.pop(ii - 1)
+                            ii -= 1
+                            popcount = 1
+                        else:
+                            break
+                    else:
+                        expected_sign = get_sign(diff)
+                        sub_count += 1
+                if sub_count == len(level):
+                    safe_count += 1
+                    break
 
     print(f"Number of Safe Reports: {safe_count}")
 
